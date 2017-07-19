@@ -21,13 +21,39 @@
 from six.moves import configparser
 import os
 
-config = {}
 filename = os.path.expanduser('~/.houdini-manage.ini')
 if os.path.isfile(filename):
   parser = configparser.SafeConfigParser()
   parser.read([filename])
-  if parser.has_section('houdini-manage'):
-    for key, value in parser.items('houdini-manage'):
-      config[key] = value
 
-exports = config
+
+class ConfigWrapper(object):
+
+  def __init__(self, parser, section, filename):
+    self.parser = parser
+    if not parser.has_section(section):
+      parser.add_section(section)
+    self.section = section
+    self.filename = filename
+
+  def __getitem__(self, key):
+    try:
+      return self.parser.get(self.section, key)
+    except configparser.NoOptionError:
+      raise KeyError(key) from None
+
+  def __setitem__(self, key, value):
+    self.parser.set(self.section, key, str(value))
+
+  def get(self, key, default=None):
+    try:
+      return self[key]
+    except KeyError:
+      return default
+
+  def save(self):
+    with open(self.filename, 'w') as fp:
+      self.parser.write(fp)
+
+
+exports = ConfigWrapper(parser, 'houdini-manage', filename)

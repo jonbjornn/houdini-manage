@@ -75,6 +75,26 @@ class NamedSection(Section):
   def clear(self):
     self.content = ''
 
+  def is_library(self):
+    return self.name.startswith('library:')
+
+  def get_library_name(self):
+    if self.is_library():
+      return self.name[8:]
+    return None
+
+  def get_library_path(self):
+    name = self.get_library_name()
+    if name:
+      return self.extract_var('HLIBPATH_' + name)
+    return None
+
+  def get_library_version(self):
+    name = self.get_library_name()
+    if name:
+      return self.extract_var('HLIBVERSION_' + name)
+    return None
+
   def add_comment(self, comment):
     lines = comment.split('\n')
     self.content += '\n'.join('# ' + line for line in lines) + '\n'
@@ -127,10 +147,12 @@ class SectionEnvfile(object):
 
   def __init__(self, sections):
     self.sections = sections
+    self.changed = False
 
   def render(self, fp):
     for section in self.sections:
       section.render(fp)
+    self.changed = False
 
   def add_section(self, section, before=None, after=None):
     if before is not None:
@@ -143,6 +165,7 @@ class SectionEnvfile(object):
       self.sections.append(section)
     else:
       self.sections.insert(index, section)
+    self.changed = True
 
   def add_plain_content(self, content, before=None, after=None):
     section = PlainContentSection(content)
@@ -160,6 +183,9 @@ class SectionEnvfile(object):
         return section
     return None
 
+  def get_library(self, name):
+    return self.get_named_section('library:' + name)
+
   def get_first_named_section(self):
     return next(self.iter_named_sections(), None)
 
@@ -171,3 +197,4 @@ class SectionEnvfile(object):
     if section is None:
       raise ValueError('no such section: "{}"'.format(name))
     self.sections.remove(section)
+    self.changed = True

@@ -19,20 +19,27 @@
 # THE SOFTWARE.
 
 import click
+import {main} from './library'
 
-@click.group(invoke_without_command=True)
-@click.option('--version', is_flag=True, help='Print version and exit.')
+try:
+  import {QApplication, Window} from '../lib/gui'
+  import_error = None
+except ImportError as exc:
+  import_error = exc
+
+
+@main.command()
 @click.pass_context
-def main(ctx, version):
-  if version:
-    print(module.package.json['version'])
-    ctx.exit(0)
-  if not ctx.invoked_subcommand:
-    print(ctx.get_usage())
+def gui(ctx):
+  """
+  Open a GUI window. Requires Kivy.
+  """
 
-# Import subcommands
-import './gui'
-import './library'
+  if import_error:
+    print('error:', import_error)
+    ctx.exit(1)
 
-if require.main == module:
-  main()
+  app = QApplication([])
+  wnd = Window()
+  wnd.show()
+  app.exec_()
