@@ -1,3 +1,5 @@
 backup/
+build/
 docs/build/
+dist/
 nodepy_modules/

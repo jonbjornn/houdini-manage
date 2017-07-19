@@ -13,5 +13,12 @@
   ],
   "python-dependencies": {
     "click": ">=6.7"
+  },
+  "dist": {
+    "include_files": [
+      "cli/*",
+      "lib/*",
+      "res/*"
+    ]
   }
 }

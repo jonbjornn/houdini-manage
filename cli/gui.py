@@ -43,3 +43,7 @@ def gui(ctx):
   wnd = Window()
   wnd.show()
   app.exec_()
+
+
+if require.main == module:
+  gui()
