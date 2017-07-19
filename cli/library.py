@@ -19,14 +19,18 @@
 # THE SOFTWARE.
 
 import click
+import datetime
 import json
 import os
 import re
 import sys
 import {main} from './index'
+import {SectionEnvfile} from '../lib/envfile'
+import hmConfig from '../lib/config'
 
 # http://www.sidefx.com/docs/houdini/ref/env
-LIBRARY_ENVIRONMENT_EXTENSIONS = [
+# Currently not used, setting HOUDINI_PATH seems to be sufficient.
+HOUDINI_PATH_ENVVARS = [
   {
     'var': 'HOUDINI_VOP_DEFINITIONS_PATH',
     'dir': 'vop'
@@ -93,44 +97,22 @@ LIBRARY_ENVIRONMENT_EXTENSIONS = [
 @main.command()
 @click.argument('hou', required=False)
 @click.option('--install', help='Install the specified Houdini library.')
+@click.option('--overwrite', is_flag=True, help='Overwrite a previous installation of the same library.')
 @click.option('--remove', help='Remove a Houdini library.')
 @click.option('--version-of', help='Print the version of a Houdini library.')
+@click.option('--path-of', help='Print the path of a Houdini library.')
 @click.option('--list', is_flag=True, help='List all installed Houdini libraries.')
 @click.option('--dry', is_flag=True, help='Do not save changes to the '
   'environment file, but print the new content instead. Only with --install '
   'and --remove.')
 @click.pass_context
-def library(ctx, hou, install, remove, version_of, list, dry):
+def library(ctx, hou, install, overwrite, remove, version_of, path_of, list, dry):
   """
-  Install, manage and remove external Houdini libraries.
-
-  HOU
-
-      The name of a installed Houdini version or a path to a Houdini
-      environment file. The default value can be changed in the user's
-      `~/.houdini-manage.ini` configuration file. The default value is
-      "houdini16.0".
-
-  --install LIBRARY_PATH
-
-      The path to the Houdini library to install. This directory must contain
-      a valid `houdini-library.json` file.
-
-  --remove LIBRARY_NAME
-
-      The name of the Houdini library to uninstall.
-
-  --version-of LIBRARY_NAME
-
-      Print the library name of the specified Houdini library.
-
-  --list
-
-      List all installed Houdini libraries.
+  Install or remove external Houdini libraries.
   """
 
   # Only one operation valid per invokation.
-  count = sum(map(bool, [install, remove, version_of, list]))
+  count = sum(map(bool, [install, remove, version_of, path_of, list]))
   if count == 0:
     print(ctx.get_usage())
     return
@@ -139,12 +121,50 @@ def library(ctx, hou, install, remove, version_of, list, dry):
 
   # Determine the Houdini environment file to work on.
   # TODO: Parse user configuration file.
-  hou = hou or 'houdini16.0'
+  hou = hou or hmConfig.get('houdinienv', 'houdini16.0')
   if not '/' in hou and not os.sep in hou:
     hou = os.path.expanduser('~/Documents/' + hou + '/houdini.env')
   hou = os.path.normpath(hou)
   if not os.path.isfile(hou):
     ctx.fail('file does not exist: {}'.format(hou))
+
+  # Parse the environment file into its sections.
+  with open(hou) as fp:
+    env = SectionEnvfile.parse(fp)
+
+  def save_env():
+    with open(hou, 'w') as fp:
+      env.render(fp)
+
+  if list:
+    for section in env.iter_named_sections():
+      if section.name.startswith('library:'):
+        libname = section.name[8:]
+        dirname = section.extract_var('HLIBPATH_' + libname) or '???'
+        version = section.extract_var('HLIBVERSION_' + libname) or '???'
+        print('* {} v{} ({})'.format(libname, version, dirname))
+    return
+
+  if version_of or path_of:
+    section = env.get_named_section('library:' + (version_of or path_of))
+    if not section:
+      print('library "{}" not installed'.format(version_of), file=sys.stderr)
+      ctx.exit(1)
+    var = 'HLIBVERSION_' if version_of else 'HLIBPATH_'
+    print(section.extract_var(var + section.name[8:]) or '???')
+    return
+
+  if remove:
+    try:
+      env.remove_section('library:' + remove)
+    except ValueError:
+      print('library "{}" not installed'.format(remove))
+      ctx.exit(1)
+    else:
+      print('library "{}" removed'.format(remove))
+    if not dry:
+      save_env()
+    return
 
   if install:
     # Open the librarie's configuration file.
@@ -154,58 +174,59 @@ def library(ctx, hou, install, remove, version_of, list, dry):
     with open(config_file) as fp:
       config = json.load(fp)
 
-    # TODO: Proper parsing of the environment file.
-    # Find the section of the configuration matching this library.
-    with open(hou) as fp:
-      env_content = fp.read()
-    exbegin = re.compile(
-        r'^##\s*BEGIN\s+LIBRARY\s*\(' + re.escape(config['libraryName'])
-        + r'\)\s*', re.M)
-    exend = re.compile(r'^##\s*END\s+LIBRARY\s*', re.M)
-    mbegin = exbegin.search(env_content, 0)
-    mend = exend.search(env_content, mbegin.end()) if mbegin else None
-    if mbegin and not mend:
-      ctx.fail('missing "end library" for opening definition of "{}"'
-        .format(config['libraryName']))
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+    version = module.package.json['version']
 
-    if mbegin:
-      print('removing old library section "{}"'.format(config['libraryName']), file=sys.stderr)
-      env_content = env_content[:mbegin.start()] + env_content[mend.end():]
-    print('installing library section "{}"'.format(config['libraryName']), file=sys.stderr)
-
-    # TODO: Add DEFAULTS section to the environment file that maintains
-    # the default values of Houdini's search paths.
-    # - $HFS/houdini/{dir}
-    # - $HOUDINI_USER_PREF_DIR/{dir}
-
-    directory = os.path.normpath(os.path.abspath(install))
-    lines = []
-    lines.append('HLIBPATH_{}="{}"'.format(config['libraryName'], directory))
-    lines.append('HLIBVERSION_{}="{}"'.format(config['libraryName'], config['libraryVersion']))
-    lines.append('HLIB_INSTALLED="$HLIB_INSTALLED{}{}"'.format(os.path.pathsep, config['libraryName']))
-    for data in LIBRARY_ENVIRONMENT_EXTENSIONS:
-      if not data['dir']: continue
-      libdir = os.path.join(directory, data['dir'])
-      if not os.path.isdir(libdir): continue
-      lines.append('{0}="${0}{1}{2}"'.format(data['var'], os.path.pathsep, libdir))
-    lines.extend(config.get('environment', []))
-
-    env_content += '## BEGIN LIBRARY ({})\n'.format(config['libraryName'])
-    env_content += '\n'.join(lines)
-    env_content += '\n## END LIBRARY\n'
-
-    if dry:
-      print(env_content)
+    # Initialize the default section. It's purpose is to make sure that
+    # Houdini's default paths do not get messed up.
+    section = env.get_named_section('DEFAULT')
+    if not section:
+      section = env.add_named_section('DEFAULT', '', before=env.get_first_named_section())
     else:
-      with open(hou, 'w') as fp:
-        fp.write(env_content)
-      print('saved "{}"'.format(hou), file=sys.stderr)
+      section.clear()
+    section.add_comment('  Automatically generated by houdini-manage v{}'.format(version))
+    section.add_comment('  Last update: {}'.format(now))
+    #for info in HOUDINI_PATH_ENVVARS:
+    #  # Houdini will use the default value of the variable when it sees
+    #  # the ampersand.
+    #  section.add_variable(info['var'], '&')
+    section.add_variable('HOUDINI_PATH', '&')
+    section.add_variable('PYTHONPATH', '&')
 
-  if remove:
-    pass # TODO
+    # Create or update the section for this library.
+    directory = os.path.normpath(os.path.abspath(install))
+    section = env.get_named_section('library:' + config['libraryName'])
+    if not section:
+      previous = False
+      section = env.add_named_section('library:' + config['libraryName'], '')
+    else:
+      previous = True
+      if not overwrite:
+        print('error: previous installation found. pass --overwrite to proceed')
+        ctx.exit(1)
 
-  if version_of:
-    pass # TODO
+    if previous:
+      print('note: overwriting previous installation')
 
-  if list:
-    pass # TODO
+    section.clear()
+    section.add_comment('  Automatically generated by houdini-manage v{}'.format(version))
+    section.add_comment('  Last update: {}'.format(now))
+    #for info in HOUDINI_PATH_ENVVARS:
+    #  if not info['dir']: continue
+    #  vardir = os.path.join(directory, info['dir'])
+    #  if not os.path.isdir(vardir): continue
+    #  section.add_variable(info['var'], '$' + info['var'], vardir)
+    section.add_variable('HOUDINI_PATH', '$HOUDINI_PATH', directory)
+    if os.path.isdir(os.path.join(directory, 'python')):
+      section.add_variable('PYTHONPATH', '$PYTHONPATH', os.path.join(directory, 'python'))
+    section.add_variable('HLIBPATH_' + config['libraryName'], directory)
+    section.add_variable('HLIBVERSION_' + config['libraryName'], config['libraryVersion'])
+    if config.get('environment'):
+      section.add_comment('Environment variables specified by the library:')
+      for line in config['environment']:
+        section.add_line(line)
+
+    print('library "{}" installed'.format(config['libraryName']))
+
+    if not dry:
+      save_env()

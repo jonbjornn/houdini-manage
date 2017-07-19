@@ -12,4 +12,4 @@ ordering-priority = 10
 &mdash; Install & manage external Houdini libraries, and keep them external.
 
 HoudiniLibrary is a command-line tool to install Houdini libraries simply by
-managing your Houdini environment in a clever way.
+managing your Houdini environment variables.

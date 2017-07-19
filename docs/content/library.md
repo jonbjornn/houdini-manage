@@ -25,6 +25,7 @@ Different content types must be in separate directories, as shown below.
     dso/
     geo/
     python_panels/
+    python/
     pic/
     toolbar/
     radialmenu/
