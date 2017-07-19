@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Houdini-manage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+    h1, h2, h3, h4, h5, h6 {
+      padding-top: 60px;
+      margin-top: -50px;
+    }
+    .ui.footer.segment {
+      margin: 5em 0em 0em;
+      padding: 5em 0em;
+    }
+    pre {
+      padding: 0.5em 1em;
+      background-color: #eee;
+      overflow: auto;
+    }
+    #disqus_thread {
+      margin-top: 7em;
+    }
+    blockquote {
+      font-style: italic;
+      color: gray;
+    }
+    </style>
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body>
+
+    
+
+    <!-- header -->
+    <div class="ui fixed inverted menu">
+      <div class="ui container">
+        <span class="header item">
+          <!--<img class="logo" src="assets/images/logo.png">-->
+          Houdini-manage
+        </span>
+        
+          
+      
+      
+      
+        <a href="../" class="item ">Home</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../installation/" class="item ">Installation</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../library/" class="item ">Houdini Libraries</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../cli/" class="item ">Commandline</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="./" class="item active">Configuration</a>
+      
+    
+        
+
+      <!-- GitHub -->
+      
+        <a class="item right floated" href="https://github.com/NiklasRosenstein/houdini-manage"><i class="github icon"></i>NiklasRosenstein/houdini-manage</a>
+      
+      </div>
+    </div>
+
+    <div class="ui grid container main">
+      <div class="twelve wide column">
+        <!-- content -->
+        <div class="ui text container">
+          
+            <h1>Configuration</h1>
+          
+          <p>The configuration file is read from <code>~/.houdini-manage.ini</code>.</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="k">[houdini-manage]</span>
+<span class="na">houdiniEnv</span> <span class="o">=</span> <span class="s">houdini16.0</span>
+</pre></div>
+
+
+<h2 id="options">Options</h2>
+<h3 id="houdinienv">houdiniEnv</h3>
+<p>Name of a Houdini prefs directory or path to a Houdini environment file. This
+will be the default environment that the <code>houdini-manage library</code> command will
+work with.</p>
+        </div>
+
+        <!-- disqus support -->
+        
+      </div>
+      <!-- Table of contents -->
+      <div class="four wide column">
+        
+          <h1>Table of Contents</h1>
+          <div class="toc">
+<ul>
+<li><a href="#options">Options</a><ul>
+<li><a href="#houdinienv">houdiniEnv</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+        
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div class="ui inverted vertical footer segment">
+      <div class="ui center aligned container">
+          
+            <p>Copyright &copy; 2017 Niklas Rosenstein</p>
+          
+          <p>
+             &mdash; 
+            Generated with <a href="https://github.com/NiklasRosenstein/yassg">Yassg</a>
+          </p>
+      </div>
+    </div>
+  </body>
+</html>

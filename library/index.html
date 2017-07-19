@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Houdini-manage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+    h1, h2, h3, h4, h5, h6 {
+      padding-top: 60px;
+      margin-top: -50px;
+    }
+    .ui.footer.segment {
+      margin: 5em 0em 0em;
+      padding: 5em 0em;
+    }
+    pre {
+      padding: 0.5em 1em;
+      background-color: #eee;
+      overflow: auto;
+    }
+    #disqus_thread {
+      margin-top: 7em;
+    }
+    blockquote {
+      font-style: italic;
+      color: gray;
+    }
+    </style>
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body>
+
+    
+
+    <!-- header -->
+    <div class="ui fixed inverted menu">
+      <div class="ui container">
+        <span class="header item">
+          <!--<img class="logo" src="assets/images/logo.png">-->
+          Houdini-manage
+        </span>
+        
+          
+      
+      
+      
+        <a href="../" class="item ">Home</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../installation/" class="item ">Installation</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="./" class="item active">Houdini Libraries</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../cli/" class="item ">Commandline</a>
+      
+    
+        
+          
+      
+      
+      
+        <a href="../config/" class="item ">Configuration</a>
+      
+    
+        
+
+      <!-- GitHub -->
+      
+        <a class="item right floated" href="https://github.com/NiklasRosenstein/houdini-manage"><i class="github icon"></i>NiklasRosenstein/houdini-manage</a>
+      
+      </div>
+    </div>
+
+    <div class="ui grid container main">
+      <div class="twelve wide column">
+        <!-- content -->
+        <div class="ui text container">
+          
+            <h1>Houdini Libraries</h1>
+          
+          <p><strong>Houdini-manage</strong> allows you to install libraries that contain Houdini
+digital assets and shelf tools simply by managing your Houdini environment
+variables in a clever way.</p>
+<p>Libraries can be installed, managed or removed from the command-line using
+the <a href="../cli/#library"><code>library</code></a> command.</p>
+<h2 id="library-structure">Library Structure</h2>
+<p>We define a Houdini library as any directory with the appropriate structure
+and a valid <code>houdini-library.json</code> configuration file. The configuration file
+will be used to determine the installation parameters for the library.
+Different content types must be in separate directories, as shown below.</p>
+<div class="codehilite"><pre><span></span>houdini-library.json
+vop/
+otls/
+scripts/
+desktop/
+dso/
+geo/
+python_panels/
+python/
+pic/
+toolbar/
+radialmenu/
+vex/
+glsl/
+ocl/
+</pre></div>
+
+
+<h2 id="configuration">Configuration</h2>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span>{
+  &quot;libraryName&quot;: &quot;MY_LIBRARY_NAME&quot;,
+  &quot;libraryVersion&quot;: &quot;1.6.0&quot;,
+  &quot;environment&quot;: [
+    &quot;# This line will be inserted into the Houdini environment file.&quot;
+  ]
+}
+</pre></div>
+
+
+<h4 id="libraryname">libraryName</h4>
+<p>Must be a valid environment variable identifier. This library name is used
+to keep track of sections in the Houdini environment file to allow installing,
+updating and uninstalling libraries. Additionally, the following environment
+variables will be affected by this parameter:</p>
+<ul>
+<li><code>HLIB_INSTALLED</code>: A list of the names of libraries that are installed.</li>
+<li><code>HLIBPATH_$libraryName</code>: The path to the library. This is used mostly
+  by shelf tools to reference an icon from the <code>icons/</code> directory, for example:
+  <code>$HLIBPATH_MY_LIBRARY_NAME/icons/myshelftool.png</code></li>
+<li><code>HLIBVERSION_$libraryName</code>: The version of the library.</li>
+</ul>
+<h4 id="libraryversion">libraryVersion</h4>
+<p>The version number of the library.</p>
+<h4 id="environment">environment</h4>
+<p>A list of strings that will be added to the environment file.</p>
+        </div>
+
+        <!-- disqus support -->
+        
+      </div>
+      <!-- Table of contents -->
+      <div class="four wide column">
+        
+          <h1>Table of Contents</h1>
+          <div class="toc">
+<ul>
+<li><a href="#library-structure">Library Structure</a></li>
+<li><a href="#configuration">Configuration</a><ul>
+<li><a href="#libraryname">libraryName</a></li>
+<li><a href="#libraryversion">libraryVersion</a></li>
+<li><a href="#environment">environment</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+        
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div class="ui inverted vertical footer segment">
+      <div class="ui center aligned container">
+          
+            <p>Copyright &copy; 2017 Niklas Rosenstein</p>
+          
+          <p>
+             &mdash; 
+            Generated with <a href="https://github.com/NiklasRosenstein/yassg">Yassg</a>
+          </p>
+      </div>
+    </div>
+  </body>
+</html>
