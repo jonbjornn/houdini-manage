@@ -10,7 +10,7 @@ This document describes the **Houdini-manage** command-line interface.
 houdini-manage library [OPTIONS] [HOU]
 ```
 
-Install, manage and remove [Houdini Libraries](library.md). The *HOU* 
+Install, manage and remove [Houdini Libraries](../library/). The *HOU* 
 parameter will default to "houdini16.0", unless otherwise configured in
 `~/.houdini-manage.ini`. If the argument is specified, it must be the name
 of the Houdini user preferences folder or a full path to a Houdini environment

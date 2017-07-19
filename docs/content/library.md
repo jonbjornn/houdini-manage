@@ -8,7 +8,7 @@ digital assets and shelf tools simply by managing your Houdini environment
 variables in a clever way.
 
 Libraries can be installed, managed or removed from the command-line using
-the [`library`](cli.md#library) command.
+the [`library`](../cli/#library) command.
 
 ## Library Structure
 
