@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="../../static/style.css">
     <style>
     h1, h2, h3, h4, h5, h6 {
       padding-top: 60px;
@@ -48,7 +48,7 @@
       
       
       
-        <a href="" class="item active">Home</a>
+        <a href="../../" class="item ">Home</a>
       
     
         
@@ -56,7 +56,7 @@
       
       
       
-        <a href="installation/" class="item ">Installation</a>
+        <a href="../../installation/" class="item ">Installation</a>
       
     
         
@@ -64,7 +64,7 @@
       
       
       
-        <a href="changelog/" class="item ">Changelog</a>
+        <a href="../../changelog/" class="item ">Changelog</a>
       
     
         
@@ -84,7 +84,7 @@
       
       
       
-        <a href="docs/library/" class="item ">Houdini Libraries</a>
+        <a href="../library/" class="item ">Houdini Libraries</a>
       
     
             
@@ -92,7 +92,7 @@
       
       
       
-        <a href="docs/cli/" class="item ">Commandline</a>
+        <a href="../cli/" class="item ">Commandline</a>
       
     
             
@@ -100,7 +100,7 @@
       
       
       
-        <a href="docs/config/" class="item ">Configuration</a>
+        <a href="./" class="item active">Configuration</a>
       
     
             
@@ -122,24 +122,20 @@
         <!-- content -->
         <div class="ui text container">
           
-          <h1 id="houdini-manage">Houdini-manage</h1>
-<p><a href="https://opensource.org/licenses/MIT">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" align="right">
-</a>
-&mdash; Install &amp; manage external Houdini libraries, and keep them external.</p>
-<p>Houdini-manage is a command-line tool to install <a href="library/">Houdini libraries</a> simply by
-managing your Houdini environment file. Example:</p>
-<div class="codehilite"><pre><span></span>$ houdini-manage library --list
-* NR_HOULIB v1.0.0 <span class="o">(</span>C:<span class="se">\U</span>sers<span class="se">\n</span>iklas<span class="se">\r</span>epos<span class="se">\h</span>oudini-library<span class="o">)</span>
-$ houdini-manage library --remove NR_HOULIB
-library <span class="s2">&quot;NR_HOULIB&quot;</span> removed
-$ houdini-manage library --install ../houdini-library/
-library <span class="s2">&quot;NR_HOULIB&quot;</span> installed
-$ houdini-manage library --install ../houdini-library/
-error: previous installation found. pass --overwrite to proceed
-$ houdini-manage library --version-of NR_HOULIB
-<span class="m">1</span>.0.0
+            <h1>Configuration</h1>
+          
+          <p>The configuration file is read from <code>~/.houdini-manage.ini</code>.</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="k">[houdini-manage]</span>
+<span class="na">houdiniEnv</span> <span class="o">=</span> <span class="s">houdini16.0</span>
 </pre></div>
+
+
+<h2 id="options">Options</h2>
+<h3 id="houdinienv">houdiniEnv</h3>
+<p>Name of a Houdini prefs directory or path to a Houdini environment file. This
+will be the default environment that the <code>houdini-manage library</code> command will
+work with.</p>
         </div>
 
         <!-- disqus support -->
@@ -151,7 +147,10 @@ $ houdini-manage library --version-of NR_HOULIB
           <h1>Table of Contents</h1>
           <div class="toc">
 <ul>
-<li><a href="#houdini-manage">Houdini-manage</a></li>
+<li><a href="#options">Options</a><ul>
+<li><a href="#houdinienv">houdiniEnv</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
