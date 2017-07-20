@@ -1,6 +1,6 @@
 +++
 title = "Installation"
-ordering-priority = 9
+ordering-priority = 5
 +++
 
 [Node.py]: https://nodepy.org/

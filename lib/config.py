@@ -21,9 +21,9 @@
 from six.moves import configparser
 import os
 
+parser = configparser.SafeConfigParser()
 filename = os.path.expanduser('~/.houdini-manage.ini')
 if os.path.isfile(filename):
-  parser = configparser.SafeConfigParser()
   parser.read([filename])
 
 
