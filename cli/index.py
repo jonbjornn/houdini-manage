@@ -20,6 +20,13 @@
 
 import click
 
+try:
+  import {QApplication, Window} from '../lib/gui'
+  import_error = None
+except ImportError as exc:
+  import_error = exc
+
+
 @click.group(invoke_without_command=True)
 @click.option('--version', is_flag=True, help='Print version and exit.')
 @click.pass_context
@@ -27,12 +34,22 @@ def main(ctx, version):
   if version:
     print(module.package.json['version'])
     ctx.exit(0)
+
   if not ctx.invoked_subcommand:
-    print(ctx.get_usage())
+    # Open the GUI.
+    if import_error:
+      ctx.fail(str(import_error))
+      ctx.exit(1)
+
+    app = QApplication([])
+    wnd = Window()
+    wnd.show()
+    app.exec_()
+
 
 # Import subcommands
-import './gui'
 import './library'
+
 
 if require.main == module:
   main()
