@@ -18,7 +18,8 @@ from the GitHub repository.
 
     $ python get-pip.py
     $ pip install git+https://github.com/NiklasRosenstein/houdini-manage.git
-    $ houdini-manage --version 0.0.3
+    $ houdini-manage --version
+    0.0.3
 
 > **macOS**: If you did not install Python via Homebrew, you need to add
 > use `sudo <command>`.  
