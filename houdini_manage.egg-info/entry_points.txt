@@ -1,3 +1,0 @@
-[console_scripts]
-houdini-manage = houdini_manage.main:main
-
