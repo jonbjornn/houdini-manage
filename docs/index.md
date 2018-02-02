@@ -1,8 +1,3 @@
-+++
-title = "Home"
-render-title = false
-ordering-priority = 10
-+++
 
 # Houdini-manage
 

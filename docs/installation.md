@@ -1,25 +1,15 @@
-+++
-title = "Installation"
-ordering-priority = 5
-+++
-
-[Node.py]: https://nodepy.org/
 
 1. Install Python 2.7 or 3.3+ from [Python.org](https://python.org/)
 
-2. Install Pip by running [get-pip.py](https://bootstrap.pypa.io/get-pip.py)
-   *(Python 2.7 only)*
+2. Make sure you have Pip installed. If you don't, download
+   [get-pip.py](https://bootstrap.pypa.io/get-pip.py) and run:
 
         > python C:\Users\niklas\Downloads\get-pip.py     # (Windows)
-        $ python /Users/niklas/Downloads/get-pip.py     # (macOS)
-
-3. Install [Node.py] with Pip
-
-        $ pip install node.py
+        $ python /Users/niklas/Downloads/get-pip.py       # (macOS)
 
 4. Install **Houdini-manage** by running
 
-        $ nppm install git+https://github.com/NiklasRosenstein/houdini-manage.git
+        $ pip install git+https://github.com/NiklasRosenstein/houdini-manage.git
 
 5. Check if it worked
 

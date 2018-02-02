@@ -1,0 +1,12 @@
+README.md
+houdini_manage/__init__.py
+houdini_manage/config.py
+houdini_manage/envfile.py
+houdini_manage/gui.py
+houdini_manage/library.py
+houdini_manage/main.py
+houdini_manage.egg-info/PKG-INFO
+houdini_manage.egg-info/SOURCES.txt
+houdini_manage.egg-info/dependency_links.txt
+houdini_manage.egg-info/entry_points.txt
+houdini_manage.egg-info/top_level.txt

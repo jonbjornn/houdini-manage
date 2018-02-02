@@ -56,4 +56,4 @@ class ConfigWrapper(object):
       self.parser.write(fp)
 
 
-exports = ConfigWrapper(parser, 'houdini-manage', filename)
+config = ConfigWrapper(parser, 'houdini-manage', filename)

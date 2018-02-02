@@ -1,7 +1,3 @@
-+++
-title = "Changelog"
-ordering-priority = 3
-+++
 
 ## v0.0.3
 

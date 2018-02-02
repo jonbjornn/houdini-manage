@@ -18,12 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import click
+import argparse
 import os
 import sys
-import {main} from './index'
-import {SectionEnvfile} from '../lib/envfile'
-import _library from '../lib/library'
+from . import __version__, library as _library
+from .envfile import SectionEnvfile
+
 
 # http://www.sidefx.com/docs/houdini/ref/env
 # Currently not used, setting HOUDINI_PATH seems to be sufficient.
@@ -91,36 +91,46 @@ HOUDINI_PATH_ENVVARS = [
 ]
 
 
-@main.command()
-@click.argument('hou', required=False)
-@click.option('--install', help='Install the specified Houdini library.')
-@click.option('--overwrite', is_flag=True, help='Overwrite a previous installation of the same library.')
-@click.option('--remove', help='Remove a Houdini library.')
-@click.option('--version-of', help='Print the version of a Houdini library.')
-@click.option('--path-of', help='Print the path of a Houdini library.')
-@click.option('--list', is_flag=True, help='List all installed Houdini libraries.')
-@click.option('--dry', is_flag=True, help='Do not save changes to the '
-  'environment file, but print the new content instead. Only with --install '
-  'and --remove.')
-@click.pass_context
-def library(ctx, hou, install, overwrite, remove, version_of, path_of, list, dry):
-  """
-  Install or remove external Houdini libraries.
-  """
+parser = argparse.ArgumentParser(prog='houdini-manage')
+parser.add_argument('hou', nargs='?', help='The name of the Houdini version.')
+parser.add_argument('--version', action='version', version=__version__)
+parser.add_argument('--gui', action='store_true', help='Runs the GUI.')
+parser.add_argument('-i', '--install', metavar='LIBRARY', help='Install the specified Houdini library.')
+parser.add_argument('--remove', metavar='LIBRARY', help='Remove a Houdini library.')
+parser.add_argument('--version-of', metavar='LIBRARY', help='Print the version of a Houdini library.')
+parser.add_argument('--path-of', metavar='LIBRARY', help='Print the path of a Houdini library.')
+parser.add_argument('-l', '--list', action='store_true', help='List all installed Houdini libraries.')
+parser.add_argument('--dry', action='store_true', help='Do not save changes to the environment file, but print the new content instead. Only with --install and --remove.')
+
+error = lambda *a: print(*a, file=sys.stderr)
+
+
+def _main(argv=None):
+  args = parser.parse_args(argv)
 
   # Only one operation valid per invokation.
-  count = sum(map(bool, [install, remove, version_of, path_of, list]))
+  count = sum(map(bool, [args.gui, args.install, args.remove, args.version_of, args.path_of, args.list]))
   if count == 0:
-    print(ctx.get_usage())
+    parser.print_usage()
     return
   if count != 1:
-    ctx.fail('no or multiple operations specified')
+    error('fatal: no or multiple operations specified')
+    return 1
+
+  if args.gui:
+    from .gui import QApplication, Window
+    app = QApplication([])
+    wnd = Window()
+    wnd.show()
+    app.exec_()
+    return 0
 
   # Determine the Houdini environment file to work on.
   # TODO: Parse user configuration file.
-  hou = _library.get_houdini_environment_path(hou)
+  hou = _library.get_houdini_environment_path(args.hou)
   if not os.path.isfile(hou):
-    ctx.fail('file does not exist: {}'.format(hou))
+    error('fatal: file does not exist: {}'.format(hou))
+    return 1
 
   # Parse the environment file into its sections.
   with open(hou) as fp:
@@ -130,7 +140,7 @@ def library(ctx, hou, install, overwrite, remove, version_of, path_of, list, dry
     with open(hou, 'w') as fp:
       env.render(fp)
 
-  if list:
+  if args.list:
     for section in env.iter_named_sections():
       if section.is_library():
         print('* {} v{} ({})'.format(
@@ -140,30 +150,35 @@ def library(ctx, hou, install, overwrite, remove, version_of, path_of, list, dry
         ))
     return
 
-  if version_of or path_of:
-    section = env.get_library(version_of or path_of)
+  if args.version_of or args.path_of:
+    section = env.get_library(args.version_of or args.path_of)
     if not section:
-      print('library "{}" not installed'.format(version_of or path_of), file=sys.stderr)
-      ctx.exit(1)
-    value = section.get_library_version() if version_of else section.get_library_path()
+      error('fatal: library "{}" not installed'.format(args.version_of or args.path_of))
+      return 1
+    value = section.get_library_version() if args.version_of else section.get_library_path()
     print(value or '???')
     return
 
-  if remove:
+  if args.remove:
     try:
-      env.remove_section('library:' + remove)
+      env.remove_section('library:' + args.remove)
     except ValueError:
-      print('library "{}" not installed'.format(remove))
-      ctx.exit(1)
+      print('library "{}" not installed'.format(args.remove))
+      return 1
     else:
-      print('library "{}" removed'.format(remove))
-    if not dry:
+      print('library "{}" removed'.format(args.remove))
+    if not args.dry:
       save_env()
     return
 
-  if install:
+  if args.install:
     _library.install_library()
     print('library "{}" installed'.format(config['libraryName']))
-    if not dry:
+    if not args.dry:
       save_env()
     return
+  return library(args)
+
+
+def main(argv=None):
+  sys.exit(_main(argv))

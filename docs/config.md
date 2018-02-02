@@ -1,6 +1,3 @@
-+++
-title = "Configuration"
-+++
 
 The configuration file is read from `~/.houdini-manage.ini`.
 

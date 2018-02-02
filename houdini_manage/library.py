@@ -22,7 +22,8 @@ import datetime
 import json
 import os
 import operator
-import config from './config'
+from . import __version__
+from .config import config
 
 
 def get_houdini_environment_path(hou=None):
@@ -54,7 +55,7 @@ def install_library(env, directory, overwrite=False):
     config = json.load(fp)
 
   now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
-  version = module.package.json['version']
+  version = __version__
 
   # Initialize the default section. It's purpose is to make sure that
   # Houdini's default paths do not get messed up.

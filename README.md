@@ -4,7 +4,4 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" align="right">
 </a>
 &mdash; Install & manage external Houdini libraries, and keep them external.
-
-__Links__
-
-* [Documentation](https://niklasrosenstein.github.io/houdini-manage/)
+Provides a GUI and command-line interface.

@@ -1,7 +1,3 @@
-+++
-title = "Houdini Libraries"
-ordering-priority = 5
-+++
 
 **Houdini-manage** allows you to install libraries that contain Houdini
 digital assets and shelf tools simply by managing your Houdini environment

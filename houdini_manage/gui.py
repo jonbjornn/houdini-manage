@@ -23,11 +23,12 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import os
 import webbrowser
-import config from './config'
-import {SectionEnvfile} from './envfile'
-import library from './library'
+from . import __version__, library
+from .config import config
+from .envfile import SectionEnvfile
 
-resdir = os.path.join(module.package.directory, 'res')
+
+resdir = os.path.join(os.path.dirname(__file__), 'res')
 
 
 class LibraryModel(QAbstractListModel):
@@ -68,7 +69,7 @@ class Window(QWidget):
 
   def __init__(self, parent=None):
     QWidget.__init__(self, parent)
-    self.setWindowTitle('Houdini Manage v' + module.package.json['version'])
+    self.setWindowTitle('Houdini Manage v' + __version__)
     self.setWindowIcon(QIcon(os.path.join(resdir, 'icon_manage.png')))
     self.resize(500, 300)
 
