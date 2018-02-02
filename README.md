@@ -5,6 +5,8 @@
 &mdash; Install & manage external Houdini libraries, and keep them external.
 Provides a GUI and command-line interface.
 
+![](https://i.imgur.com/EOUzJvD.png)
+
 ### Installation
 
   [get-pip.py]: https://bootstrap.pypa.io/get-pip.py
