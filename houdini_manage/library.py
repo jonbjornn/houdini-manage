@@ -93,8 +93,7 @@ def install_library(env, directory, overwrite=False):
   #  if not os.path.isdir(vardir): continue
   #  section.add_variable(info['var'], '$' + info['var'], vardir)
   section.add_variable('HOUDINI_PATH', '$HOUDINI_PATH', directory)
-  if os.path.isdir(os.path.join(directory, 'python')):
-    section.add_variable('PYTHONPATH', '$PYTHONPATH', os.path.join(directory, 'python'))
+  section.add_variable('PYTHONPATH', '$PYTHONPATH', os.path.join(directory, 'python'))
   section.add_variable('HLIBPATH_' + config['libraryName'], directory)
   section.add_variable('HLIBVERSION_' + config['libraryName'], config['libraryVersion'])
   if config.get('environment'):

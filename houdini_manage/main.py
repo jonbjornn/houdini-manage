@@ -182,3 +182,7 @@ def _main(argv=None):
 
 def main(argv=None):
   sys.exit(_main(argv))
+
+
+if __name__ == '__main__':
+  main()
