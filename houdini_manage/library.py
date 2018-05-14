@@ -132,6 +132,7 @@ def get_houdini_application_dir():
 
 def build_dso(hou_app_dir, library_dir):
   hcustom = os.path.join(hou_app_dir, 'bin\\hcustom.exe' if os.name == 'nt' else 'bin/hcustom')
+  library_dir = os.path.abspath(library_dir)
   config = load_library_config(library_dir)
 
   dso_source = os.path.join(library_dir, config.get('dsoSource', 'dso_source'))
