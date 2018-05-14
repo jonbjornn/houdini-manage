@@ -192,17 +192,25 @@ class Window(QWidget):
     directory = QFileDialog.getExistingDirectory(self)
     if not directory:
       return
+    hou_app_dir = self.houdiniPath.text()
+    if not hou_app_dir:
+      print('No houdini application directory specified, skipping DSO builds.')
     try:
       library.install_library(self._envfile, directory)
+      if hou_app_dir:
+        if not library.build_dso(hou_app_dir, directory):
+          error_dialog('DSO build failed', 'Check console for more information.')
     except library.NotALibraryError as exc:
       error_dialog('Not a Houdini Library', str(exc))
     except library.PreviousInstallationFoundError as exc:
       error_dialog('Previous installation found', 'Please uninstall "{}" first.'.format(exc.library_name))
+    except OSError as exc:
+      error_dialog('Fatal error', str(exc))
     else:
       self._model.update()
 
   def _remove(self):
-    index = self.table.selectionModel().selectedIndexes()
+    index = self.listView.selectionModel().selectedIndexes()
     if len(index) != 1:
       return
     self._model.removeIndex(index[0])

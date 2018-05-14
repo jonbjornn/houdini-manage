@@ -23,6 +23,7 @@ import json
 import os
 import operator
 import shlex
+import subprocess
 from . import __version__
 from .config import config
 
@@ -47,13 +48,17 @@ def get_houdini_user_prefs_directories():
   return result
 
 
-def install_library(env, directory, overwrite=False):
-  # Open the librarie's configuration file.
+def load_library_config(directory):
   config_file = os.path.join(directory, 'houdini-library.json')
   if not os.path.isfile(config_file):
     raise NotALibraryError('missing library configuration file: {}'.format(config_file))
   with open(config_file) as fp:
-    config = json.load(fp)
+    return json.load(fp)
+
+
+def install_library(env, directory, overwrite=False):
+  # Open the librarie's configuration file.
+  config = load_library_config(directory)
 
   now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
   version = __version__
@@ -123,6 +128,55 @@ def get_houdini_application_dir():
   else:
     path = ''
   return path
+
+
+def build_dso(hou_app_dir, library_dir):
+  hcustom = os.path.join(hou_app_dir, 'bin\\hcustom.exe' if os.name == 'nt' else 'bin/hcustom')
+  config = load_library_config(library_dir)
+
+  dso_source = os.path.join(library_dir, config.get('dsoSource', 'dso_source'))
+  if not os.path.isdir(dso_source):
+    return
+
+  dso_dir = os.path.join(library_dir, 'dso')
+  if not os.path.isdir(dso_dir):
+    os.makedirs(dso_dir)
+
+  files = []
+  for name in os.listdir(dso_source):
+    ext = os.path.splitext(name)[1].lower()
+    if ext in ('.c', '.cc', '.cxx', '.cpp'):
+      files.append(os.path.join(dso_source, name))
+
+  if not files:
+    return
+
+  command = [hcustom]
+  if config.get('dsoDebug'):
+    command += '-g'
+  for path in config.get('dsoInclude', []):
+    command += ['-I', os.path.join(library_dir, path)]
+  for path in config.get('dsoLibdir', []):
+    command += ['-L', os.path.join(library_dir, path)]
+  for lib in config.get('dsoLibs', []):
+    command += ['-l', lib]
+  command += ['-i', dso_dir]
+
+  print('Building DSOs for "{}" ...'.format(config['libraryName']))
+
+  ok = True
+  for filename in files:
+    current_command = command + [filename]
+    print()
+    print('  {} ...'.format(os.path.basename(filename)))
+    print()
+    res = subprocess.call(current_command)
+    if res != 0:
+      print('Error: hcustom failed with exit code', res)
+      ok = False
+
+  print('Done.')
+  return ok
 
 
 class InstallError(Exception):
