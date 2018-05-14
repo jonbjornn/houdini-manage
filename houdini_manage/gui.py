@@ -50,12 +50,16 @@ class LibraryModel(QAbstractListModel):
     self.sections = list(s for s in self.envfile.iter_named_sections() if s.is_library())
     self.layoutChanged.emit()
 
-  def removeIndex(self, index):
+  def getFromIndex(self, index):
     index = index.row()
     if index < 0 or index >= len(self.sections):
       return
-    section = self.sections[index]
-    self.envfile.remove_section(section.name)
+    return self.sections[index]
+
+  def removeIndex(self, index):
+    section = self.getFromIndex(index)
+    if section:
+      self.envfile.remove_section(section.name)
 
   def rowCount(self, parent=QModelIndex()):
     return len(self.sections)
@@ -84,7 +88,7 @@ class Window(QWidget):
     # Create widgets.
     self.houdiniVersion = QComboBox()
     self.houdiniPath = QLineEdit()
-    self.table = QListView()
+    self.listView = QListView()
     self.menuBar = QMenuBar()
     self._model = None
     self._envfile = None
@@ -100,7 +104,11 @@ class Window(QWidget):
     btnRemove.setIcon(QIcon(os.path.join(resdir, 'remove.png')))
     btnRemove.setFixedSize(32, 32)
     btnRemove.setToolTip('Remove Library')
-    btnRemove.clicked.connect(self._remove)
+    btnBuild = QPushButton('')
+    btnBuild.setIcon(QIcon(os.path.join(resdir, 'build.png')))
+    btnBuild.setFixedSize(32, 32)
+    btnBuild.setToolTip('(Re)build DSO')
+    btnBuild.clicked.connect(self._buildDso)
     btnSave = QPushButton('')
     btnSave.setIcon(QIcon(os.path.join(resdir, 'save.png')))
     btnSave.setFixedSize(32, 32)
@@ -131,13 +139,14 @@ class Window(QWidget):
     if True: # List view and right bar
       line = QHBoxLayout()
       layout.addLayout(line)
-      line.addWidget(self.table)
+      line.addWidget(self.listView)
 
       vert = QVBoxLayout()
       vert.setAlignment(Qt.AlignTop)
       line.addLayout(vert)
       vert.addWidget(btnInstall)
       vert.addWidget(btnRemove)
+      vert.addWidget(btnBuild)
       vert.addWidget(make_spacer(vertical=True))
       vert.addWidget(btnSave)
       vert.addWidget(btnHelp)
@@ -184,7 +193,7 @@ class Window(QWidget):
       self._envfilename = None
       self._envfile = None
       self._model = None
-    self.table.setModel(self._model)
+    self.listView.setModel(self._model)
 
   def _install(self):
     if not self._envfile:
@@ -215,6 +224,19 @@ class Window(QWidget):
       return
     self._model.removeIndex(index[0])
     self._model.update()
+
+  def _buildDso(self):
+    hou_app_dir = self.houdiniPath.text()
+    if not hou_app_dir:
+      error_dialog('Error', 'Specify the Houdini Application Path to build DSOs.')
+      return
+    for index in self.listView.selectionModel().selectedIndexes():
+      section = self._model.getFromIndex(index)
+      try:
+        library.build_dso(hou_app_dir, section.get_library_path())
+      except OSError as exc:
+        error_dialog('Fatal error', str(exc))
+        break
 
   def _save(self):
     if not self._envfile or not self._envfilename:
