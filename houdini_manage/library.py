@@ -170,7 +170,7 @@ def build_dso(hou_app_dir, library_dir):
     print()
     print('  {} ...'.format(os.path.basename(filename)))
     print()
-    res = subprocess.call(current_command)
+    res = subprocess.call(current_command, cwd=dso_dir)
     if res != 0:
       print('Error: hcustom failed with exit code', res)
       ok = False
