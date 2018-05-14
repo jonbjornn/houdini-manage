@@ -31,6 +31,14 @@ from .envfile import SectionEnvfile
 resdir = os.path.join(os.path.dirname(__file__), 'res')
 
 
+def _fileselectFor(edit):
+  def handler():
+    path = QFileDialog.getExistingDirectory()
+    if path:
+      edit.setText(path)
+  return handler
+
+
 class LibraryModel(QAbstractListModel):
 
   def __init__(self, envfile):
@@ -75,6 +83,7 @@ class Window(QWidget):
 
     # Create widgets.
     self.houdiniVersion = QComboBox()
+    self.houdiniPath = QLineEdit()
     self.table = QListView()
     self.menuBar = QMenuBar()
     self._model = None
@@ -105,30 +114,40 @@ class Window(QWidget):
 
     # Layout.
     layout = QVBoxLayout(self)
-    if 'houdini version selector':
-      line = QHBoxLayout()
+    if True:  # Houdini version selector
+      line = QVBoxLayout()
       layout.addLayout(line)
-      line.addWidget(QLabel('Houdini Version'))
-      line.addWidget(self.houdiniVersion)
-    if 'listview and right bar':
+      box = QHBoxLayout()
+      line.addLayout(box)
+      box.addWidget(QLabel('Houdini Version'))
+      box.addWidget(self.houdiniVersion)
+      box = QHBoxLayout()
+      line.addLayout(box)
+      btn = QPushButton('...')
+      btn.clicked.connect(_fileselectFor(self.houdiniPath))
+      box.addWidget(QLabel('Houdini Application Directory'))
+      box.addWidget(self.houdiniPath)
+      box.addWidget(btn)
+    if True: # List view and right bar
       line = QHBoxLayout()
       layout.addLayout(line)
       line.addWidget(self.table)
-      if 'right bar':
-        vert = QVBoxLayout()
-        vert.setAlignment(Qt.AlignTop)
-        line.addLayout(vert)
-        vert.addWidget(btnInstall)
-        vert.addWidget(btnRemove)
-        vert.addWidget(make_spacer(vertical=True))
-        vert.addWidget(btnSave)
-        vert.addWidget(btnHelp)
+
+      vert = QVBoxLayout()
+      vert.setAlignment(Qt.AlignTop)
+      line.addLayout(vert)
+      vert.addWidget(btnInstall)
+      vert.addWidget(btnRemove)
+      vert.addWidget(make_spacer(vertical=True))
+      vert.addWidget(btnSave)
+      vert.addWidget(btnHelp)
 
     # Init values.
     self.houdiniPrefPaths = library.get_houdini_user_prefs_directories()
     self.houdiniVersion.addItems([x[0] for x in self.houdiniPrefPaths])
     self.houdiniVersion.currentIndexChanged.connect(self._updateEnv)
     self.houdiniVersion.setCurrentIndex(0)
+    self.houdiniPath.setText(library.get_houdini_application_dir())
     self._updateEnv()
 
   def closeEvent(self, event):

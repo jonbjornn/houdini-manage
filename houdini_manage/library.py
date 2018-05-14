@@ -22,6 +22,7 @@ import datetime
 import json
 import os
 import operator
+import shlex
 from . import __version__
 from .config import config
 
@@ -108,6 +109,20 @@ def remove_library(env, name):
     env.remove_section(section)
     return True
   return False
+
+
+def get_houdini_application_dir():
+  install_dir = config.get('houdiniapp')
+  if install_dir:
+    return install_dir
+  if os.name == 'nt':
+    import winreg
+    key = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, 'Houdini.hip\\shell\\open\\command')
+    path = shlex.split(winreg.QueryValue(key, None))[0]
+    path = os.path.dirname(os.path.dirname(path))
+  else:
+    path = ''
+  return path
 
 
 class InstallError(Exception):
