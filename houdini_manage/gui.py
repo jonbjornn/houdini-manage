@@ -298,3 +298,11 @@ def message_dialog(title, message):
 
 def error_dialog(title, message):
   QMessageBox.critical(None, title, message)
+
+
+def main():
+  app = QApplication([])
+  wnd = Window()
+  wnd.show()
+  app.exec_()
+  return 0

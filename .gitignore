@@ -4,3 +4,4 @@ docs/build/
 dist/
 .env/
 *.egg-info
+bundle/

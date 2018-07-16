@@ -118,12 +118,8 @@ def _main(argv=None):
     return 1
 
   if args.gui:
-    from .gui import QApplication, Window
-    app = QApplication([])
-    wnd = Window()
-    wnd.show()
-    app.exec_()
-    return 0
+    from .gui import main
+    return main()
 
   # Determine the Houdini environment file to work on.
   # TODO: Parse user configuration file.
