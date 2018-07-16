@@ -3,6 +3,7 @@
 
 - Remove `houdini-manage gui` subcommand, GUI now starts directly when no
   arguments or options are specified
+- Make buildable with [nr.pybundle](https://gitlab.niklasrosenstein.com/NiklasRosenstein/python/nr.pybundle)
 
 ## v0.0.2
 
