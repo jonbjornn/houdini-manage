@@ -230,13 +230,21 @@ class Window(QWidget):
     if not hou_app_dir:
       error_dialog('Error', 'Specify the Houdini Application Path to build DSOs.')
       return
+    count = 0
+    num_built = 0
     for index in self.listView.selectionModel().selectedIndexes():
       section = self._model.getFromIndex(index)
       try:
-        library.build_dso(hou_app_dir, section.get_library_path())
+        num, ok = library.build_dso(hou_app_dir, section.get_library_path())
+        num_built += num
+        count += 1
       except OSError as exc:
         error_dialog('Fatal error', str(exc))
         break
+    if not count:
+      error_dialog('Error', 'Please select a library to rebuild the DSOs for.')
+    elif not num_built:
+      message_dialog('Note', 'No DSOs in the selected libraries.')
 
   def _save(self):
     if not self._envfile or not self._envfilename:

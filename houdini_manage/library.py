@@ -137,7 +137,7 @@ def build_dso(hou_app_dir, library_dir):
 
   dso_source = os.path.join(library_dir, config.get('dsoSource', 'dso_source'))
   if not os.path.isdir(dso_source):
-    return
+    return 0, True
 
   dso_dir = os.path.join(library_dir, 'dso')
   if not os.path.isdir(dso_dir):
@@ -150,7 +150,7 @@ def build_dso(hou_app_dir, library_dir):
       files.append(os.path.join(dso_source, name))
 
   if not files:
-    return
+    return 0, True
 
   command = [hcustom]
   if config.get('dsoDebug'):
@@ -177,7 +177,7 @@ def build_dso(hou_app_dir, library_dir):
       ok = False
 
   print('Done.')
-  return ok
+  return len(files), ok
 
 
 class InstallError(Exception):

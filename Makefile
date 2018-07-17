@@ -6,4 +6,5 @@ default:
 
 .PHONY: dist
 dist:
-	nr pybundle --dist --entry @houdini-manage=houdini_manage.gui:main
+	nr pybundle --dist --entry @houdini-manage-gui=houdini_manage.gui:main \
+			--entry houdini-manage=houdini_manage.gui:main
