@@ -104,6 +104,7 @@ class Window(QWidget):
     btnRemove.setIcon(QIcon(os.path.join(resdir, 'remove.png')))
     btnRemove.setFixedSize(32, 32)
     btnRemove.setToolTip('Remove Library')
+    btnRemove.clicked.connect(self._remove)
     btnBuild = QPushButton('')
     btnBuild.setIcon(QIcon(os.path.join(resdir, 'build.png')))
     btnBuild.setFixedSize(32, 32)

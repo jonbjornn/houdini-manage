@@ -4,6 +4,7 @@
 - Show information dialog after DSOs have been rebuilt.
 - Distributions now provide a `houdini-manage-gui` entrypoint that hides the
   console and `houdini-manage` doesn't.
+- Fix "Remove" button
 
 ## v0.0.3
 
