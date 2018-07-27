@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf8">
-    <title>Configuration</title>
+    <title>Installation</title>
     <link href="../static/style.css" rel="stylesheet">
     <link href="../static/pygments.css" rel="stylesheet">
   </head>
@@ -26,7 +26,9 @@
     </ul>
     
       
-      <li><a class="" href="../install">Installation</a></li>
+      <li><a class="active" href="../install">Installation</a></li>
+      
+        <div class="toc"><ul></ul></div>
       
       
     <ul>
@@ -42,9 +44,7 @@
     </ul>
     
       
-      <li><a class="active" href="../config">Configuration</a></li>
-      
-        <div class="toc"><ul><li><a href="#Options">Options</a><ul><li><a href="#houdiniEnv">houdiniEnv</a></li></ul></li></ul></div>
+      <li><a class="" href="../config">Configuration</a></li>
       
       
     <ul>
@@ -89,17 +89,20 @@
     <div class="content">
       <div class="content-inner">
         
-          <h1>Configuration</h1>
+          <h1>Installation</h1>
         
         
-<p>The configuration file is read from <code class="codespan">~/.houdini-manage.ini</code>.</p>
-<p><strong><em>Example</em></strong></p>
-<pre><code>[houdini-manage]
-houdiniEnv = houdini16.0
-</pre></code><h2 id="Options">Options</h2><h3 id="houdiniEnv">houdiniEnv</h3>
-<p>Name of a Houdini prefs directory or path to a Houdini environment file. This
-will be the default environment that the <code class="codespan">houdini-manage library</code> command will
-work with.</p>
+<p>We provide prebuilt distributables on the <a href="https://github.com/NiklasRosenstein/houdini-manage/releases">GitHub Releases</a> page for Windows.
+On other platforms, you currently need to install Houdini-Manage via the
+command-line:</p>
+<pre><code>$ pip git+https://github.com/NiklasRosenstein/houdini-manage.git
+$ houdini-manage --gui
+</pre></code>
+<blockquote>
+<p><strong><em>macOS</em></strong>: If you did not install Python via Homebrew, you need to add
+use <code class="codespan">sudo <command></code>.<br/>
+<strong><em>Windows</em></strong>: Depending on where you chose to install Python, you might need
+an Administrator console on Windows.</p></blockquote>
       </div>
     </div>
   </body>

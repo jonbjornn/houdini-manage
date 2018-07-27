@@ -1,174 +1,108 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Houdini-manage</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-    <link rel="stylesheet" href="static/style.css">
-    <style>
-    h1, h2, h3, h4, h5, h6 {
-      padding-top: 60px;
-      margin-top: -50px;
-    }
-    .ui.footer.segment {
-      margin: 5em 0em 0em;
-      padding: 5em 0em;
-    }
-    pre {
-      padding: 0.5em 1em;
-      background-color: #eee;
-      overflow: auto;
-    }
-    #disqus_thread {
-      margin-top: 7em;
-    }
-    blockquote {
-      font-style: italic;
-      color: gray;
-    }
-    </style>
-
-    <!-- Google Analytics -->
-    
+    <meta charset="utf8">
+    <title>Home</title>
+    <link href="static/style.css" rel="stylesheet">
+    <link href="static/pygments.css" rel="stylesheet">
   </head>
   <body>
-
     
-
-    <!-- header -->
-    <div class="ui fixed inverted menu">
-      <div class="ui container">
-        <span class="header item">
-          <!--<img class="logo" src="assets/images/logo.png">-->
-          Houdini-manage
-        </span>
+    <div class="sidebar">
+      
+      <div class="title">
+        <p><a href=".">Houdini-Manage</a></p>
+      </div>
+      <hr/>
+      <div class="toc">
         
-          
+    <ul>
+      
+      <li><a class="active" href=".">Home</a></li>
+      
+        <div class="toc"><ul><li><a href="#houdini-manage">houdini-manage</a><ul><li><a href="#Features">Features</a></li></ul></li></ul></div>
       
       
+    <ul>
       
-        <a href="" class="item active">Home</a>
-      
+    </ul>
     
-        
-          
+      
+      <li><a class="" href="install">Installation</a></li>
       
       
+    <ul>
       
-        <a href="installation/" class="item ">Installation</a>
-      
+    </ul>
     
-        
-          
+      
+      <li><a class="" href="cli">Commandline</a></li>
       
       
+    <ul>
       
-        <a href="changelog/" class="item ">Changelog</a>
-      
+    </ul>
     
-        
-          
+      
+      <li><a class="" href="config">Configuration</a></li>
       
       
+    <ul>
       
-        
-        <div class="ui simple dropdown item">
-          
-            Documentation
-          
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            
-              
-      
-      
-      
-        <a href="docs/library/" class="item ">Houdini Libraries</a>
-      
+    </ul>
     
-            
-              
+      
+      <li><a class="" href="changelog">Changelog</a></li>
       
       
+    <ul>
       
-        <a href="docs/cli/" class="item ">Commandline</a>
-      
+    </ul>
     
-            
-              
+      
+      <li><a class="" href="library">Library Specification</a></li>
       
       
+    <ul>
       
-        <a href="docs/config/" class="item ">Configuration</a>
-      
+    </ul>
     
-            
-          </div>
+      
+    </ul>
+    
+      </div>
+      
+        <hr/>
+        <div class="author">
+          <p class="subtitle">About the author:</p>
+          
+          <a href="https://github.com/NiklasRosenstein">@NiklasRosenstein on GitHub</a>
+          
+          
+          <a href="mailto:rosensteinniklas@gmail.com">Contact via email</a>
+          
         </div>
       
-    
-        
-
-      <!-- GitHub -->
-      
-        <a class="item right floated" href="https://github.com/NiklasRosenstein/houdini-manage"><i class="github icon"></i>NiklasRosenstein/houdini-manage</a>
-      
-      </div>
+      <hr/>
+      <div class="statigen-notice">Built with <a href="https://github.com/NiklasRosenstein/statigen">statigen</a>.</div>
     </div>
-
-    <div class="ui grid container main">
-      <div class="twelve wide column">
-        <!-- content -->
-        <div class="ui text container">
-          
-          <h1 id="houdini-manage">Houdini-manage</h1>
-<p><a href="https://opensource.org/licenses/MIT">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" align="right">
-</a>
-&mdash; Install &amp; manage external Houdini libraries, and keep them external.</p>
-<p>Houdini-manage is a command-line tool to install <a href="library/">Houdini libraries</a> simply by
-managing your Houdini environment file. Example:</p>
-<div class="codehilite"><pre><span></span>$ houdini-manage library --list
-* NR_HOULIB v1.0.0 <span class="o">(</span>C:<span class="se">\U</span>sers<span class="se">\n</span>iklas<span class="se">\r</span>epos<span class="se">\h</span>oudini-library<span class="o">)</span>
-$ houdini-manage library --remove NR_HOULIB
-library <span class="s2">&quot;NR_HOULIB&quot;</span> removed
-$ houdini-manage library --install ../houdini-library/
-library <span class="s2">&quot;NR_HOULIB&quot;</span> installed
-$ houdini-manage library --install ../houdini-library/
-error: previous installation found. pass --overwrite to proceed
-$ houdini-manage library --version-of NR_HOULIB
-<span class="m">1</span>.0.0
-</pre></div>
-        </div>
-
-        <!-- disqus support -->
+    <div class="content">
+      <div class="content-inner">
         
-      </div>
-      <!-- Table of contents -->
-      <div class="four wide column">
+          <h1>Home</h1>
         
-          <h1>Table of Contents</h1>
-          <div class="toc">
+        <h2 id="houdini-manage">houdini-manage</h2>
+<p><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT licensed"></p>
+<p>Houdini-Manage is a PyQt5 application that allows you to install libraries of
+Houdini digital assets, native plugins, toolbars, python modules and VEX
+headers by linking them into your Houdini environment.</p>
+<p><img src="https://i.imgur.com/jKjXCdB.png" alt=""></p><h3 id="Features">Features</h3>
 <ul>
-<li><a href="#houdini-manage">Houdini-manage</a></li>
-</ul>
-</div>
-
-        
-      </div>
-    </div>
-
-    <!-- footer -->
-    <div class="ui inverted vertical footer segment">
-      <div class="ui center aligned container">
-          
-            <p>Copyright &copy; 2017 Niklas Rosenstein</p>
-          
-          <p>
-             &mdash; 
-            Generated with <a href="https://github.com/NiklasRosenstein/yassg">Yassg</a>
-          </p>
+<li>Keep your Houdini preferences directory clean, Hoduini-Manage will only
+modify your <code class="codespan">houdini.env</code> file
+</li>
+<li>Automatically builds DSOs when installing a library
+</li></ul>
       </div>
     </div>
   </body>

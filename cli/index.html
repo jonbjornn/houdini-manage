@@ -1,177 +1,119 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Houdini-manage</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-    <link rel="stylesheet" href="../static/style.css">
-    <style>
-    h1, h2, h3, h4, h5, h6 {
-      padding-top: 60px;
-      margin-top: -50px;
-    }
-    .ui.footer.segment {
-      margin: 5em 0em 0em;
-      padding: 5em 0em;
-    }
-    pre {
-      padding: 0.5em 1em;
-      background-color: #eee;
-      overflow: auto;
-    }
-    #disqus_thread {
-      margin-top: 7em;
-    }
-    blockquote {
-      font-style: italic;
-      color: gray;
-    }
-    </style>
-
-    <!-- Google Analytics -->
-    
+    <meta charset="utf8">
+    <title>Commandline</title>
+    <link href="../static/style.css" rel="stylesheet">
+    <link href="../static/pygments.css" rel="stylesheet">
   </head>
   <body>
-
     
-
-    <!-- header -->
-    <div class="ui fixed inverted menu">
-      <div class="ui container">
-        <span class="header item">
-          <!--<img class="logo" src="assets/images/logo.png">-->
-          Houdini-manage
-        </span>
-        
-          
+    <div class="sidebar">
       
-      
-      
-        <a href="../" class="item ">Home</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../installation/" class="item ">Installation</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../library/" class="item ">Houdini Libraries</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="./" class="item active">Commandline</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../config/" class="item ">Configuration</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../changelog/" class="item ">Changelog</a>
-      
-    
-        
-
-      <!-- GitHub -->
-      
-        <a class="item right floated" href="https://github.com/NiklasRosenstein/houdini-manage"><i class="github icon"></i>NiklasRosenstein/houdini-manage</a>
-      
+      <div class="title">
+        <p><a href="../.">Houdini-Manage</a></p>
       </div>
+      <hr/>
+      <div class="toc">
+        
+    <ul>
+      
+      <li><a class="" href="../.">Home</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../install">Installation</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="active" href="../cli">Commandline</a></li>
+      
+        <div class="toc"><ul><li><a href="#code-class-codespan-gui-code"><code class="codespan">--gui</code></a></li><li><a href="#code-class-codespan-install-code"><code class="codespan">--install</code></a></li><li><a href="#code-class-codespan-remove-code"><code class="codespan">--remove</code></a></li><li><a href="#code-class-codespan-version-of-code"><code class="codespan">--version-of</code></a></li><li><a href="#code-class-codespan-path-of-code"><code class="codespan">--path-of</code></a></li><li><a href="#code-class-codespan-list-code"><code class="codespan">--list</code></a></li></ul></div>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../config">Configuration</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../changelog">Changelog</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../library">Library Specification</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+    </ul>
+    
+      </div>
+      
+        <hr/>
+        <div class="author">
+          <p class="subtitle">About the author:</p>
+          
+          <a href="https://github.com/NiklasRosenstein">@NiklasRosenstein on GitHub</a>
+          
+          
+          <a href="mailto:rosensteinniklas@gmail.com">Contact via email</a>
+          
+        </div>
+      
+      <hr/>
+      <div class="statigen-notice">Built with <a href="https://github.com/NiklasRosenstein/statigen">statigen</a>.</div>
     </div>
-
-    <div class="ui grid container main">
-      <div class="twelve wide column">
-        <!-- content -->
-        <div class="ui text container">
-          
-            <h1>Commandline</h1>
-          
-          <p>This document describes the <strong>Houdini-manage</strong> command-line interface.</p>
-<h2 id="library"><code>library</code></h2>
-<div class="codehilite"><pre><span></span>houdini-manage library [OPTIONS] [HOU]
-</pre></div>
-
-
-<p>Install, manage and remove <a href="../library/">Houdini Libraries</a>. The <em>HOU</em> 
-parameter will default to "houdini16.0", unless otherwise configured in
-<code>~/.houdini-manage.ini</code>. If the argument is specified, it must be the name
+    <div class="content">
+      <div class="content-inner">
+        
+          <h1>Commandline</h1>
+        
+        
+<blockquote>
+<p><code class="codespan">houdini-manage [options] [hou]</code></p></blockquote>
+<p>This document describes the <strong><em>Houdini-manage</em></strong> command-line interface.</p>
+<p>It allows you to install, manage and remove <a href="../cli/library.md">Houdini Libraries</a>.
+The <em>HOU</em> parameter will default to <q>houdini16.0</q>, unless otherwise configured
+in <code class="codespan">~/.houdini-manage.ini</code>. If the argument is specified, it must be the name
 of the Houdini user preferences folder or a full path to a Houdini environment
-file.</p>
-<h3 id="-install"><code>--install</code></h3>
+file.</p><h3 id="code-class-codespan-gui-code"><code class="codespan">--gui</code></h3>
+<p>Start the Houdini Manage GUI.</p><h3 id="code-class-codespan-install-code"><code class="codespan">--install</code></h3>
 <p><em>LIBRARY_PATH</em> is the path to the Houdini library. It must contain a valid
-<code>houdini-library.json</code> file.</p>
+<code class="codespan">houdini-library.json</code> file.</p>
 <p>If specified, the <em>HOUDINI</em> argument must be either the path to a Houdini
-environment file (<code>houdini.env</code>) or the name of the Houdini configuration
-directory that contains such a file.</p>
-<h3 id="-remove"><code>--remove</code></h3>
-<p>Removes the Houdini library with the specified <em>LIBRARY_NAME</em>.</p>
-<h3 id="-version-of"><code>--version-of</code></h3>
+environment file (<code class="codespan">houdini.env</code>) or the name of the Houdini configuration
+directory that contains such a file.</p><h3 id="code-class-codespan-remove-code"><code class="codespan">--remove</code></h3>
+<p>Removes the Houdini library with the specified <em>LIBRARY_NAME</em>.</p><h3 id="code-class-codespan-version-of-code"><code class="codespan">--version-of</code></h3>
 <p>Prints the version of the library specified with <em>LIBRARY_NAME</em>. If the
 library is not installed, an error will be printed to stderr and the exit
-code will be 1.</p>
-<h3 id="-path-of"><code>--path-of</code></h3>
+code will be 1.</p><h3 id="code-class-codespan-path-of-code"><code class="codespan">--path-of</code></h3>
 <p>Prints the path to the library specified with <em>LIBRARY_NAME</em>. If the library
 is not installed, an error will be printed to stderr and the exit code will
-be 1.</p>
-<h3 id="-list"><code>--list</code></h3>
+be 1.</p><h3 id="code-class-codespan-list-code"><code class="codespan">--list</code></h3>
 <p>List all installed libraries.</p>
-        </div>
-
-        <!-- disqus support -->
-        
-      </div>
-      <!-- Table of contents -->
-      <div class="four wide column">
-        
-          <h1>Table of Contents</h1>
-          <div class="toc">
-<ul>
-<li><a href="#library">library</a><ul>
-<li><a href="#-install">--install</a></li>
-<li><a href="#-remove">--remove</a></li>
-<li><a href="#-version-of">--version-of</a></li>
-<li><a href="#-path-of">--path-of</a></li>
-<li><a href="#-list">--list</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-        
-      </div>
-    </div>
-
-    <!-- footer -->
-    <div class="ui inverted vertical footer segment">
-      <div class="ui center aligned container">
-          
-            <p>Copyright &copy; 2017 Niklas Rosenstein</p>
-          
-          <p>
-             &mdash; 
-            Generated with <a href="https://github.com/NiklasRosenstein/yassg">Yassg</a>
-          </p>
       </div>
     </div>
   </body>

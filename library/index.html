@@ -1,123 +1,107 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Houdini-manage</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-    <link rel="stylesheet" href="../static/style.css">
-    <style>
-    h1, h2, h3, h4, h5, h6 {
-      padding-top: 60px;
-      margin-top: -50px;
-    }
-    .ui.footer.segment {
-      margin: 5em 0em 0em;
-      padding: 5em 0em;
-    }
-    pre {
-      padding: 0.5em 1em;
-      background-color: #eee;
-      overflow: auto;
-    }
-    #disqus_thread {
-      margin-top: 7em;
-    }
-    blockquote {
-      font-style: italic;
-      color: gray;
-    }
-    </style>
-
-    <!-- Google Analytics -->
-    
+    <meta charset="utf8">
+    <title>Library Specification</title>
+    <link href="../static/style.css" rel="stylesheet">
+    <link href="../static/pygments.css" rel="stylesheet">
   </head>
   <body>
-
     
-
-    <!-- header -->
-    <div class="ui fixed inverted menu">
-      <div class="ui container">
-        <span class="header item">
-          <!--<img class="logo" src="assets/images/logo.png">-->
-          Houdini-manage
-        </span>
-        
-          
+    <div class="sidebar">
       
-      
-      
-        <a href="../" class="item ">Home</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../installation/" class="item ">Installation</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="./" class="item active">Houdini Libraries</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../cli/" class="item ">Commandline</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../config/" class="item ">Configuration</a>
-      
-    
-        
-          
-      
-      
-      
-        <a href="../changelog/" class="item ">Changelog</a>
-      
-    
-        
-
-      <!-- GitHub -->
-      
-        <a class="item right floated" href="https://github.com/NiklasRosenstein/houdini-manage"><i class="github icon"></i>NiklasRosenstein/houdini-manage</a>
-      
+      <div class="title">
+        <p><a href="../.">Houdini-Manage</a></p>
       </div>
+      <hr/>
+      <div class="toc">
+        
+    <ul>
+      
+      <li><a class="" href="../.">Home</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../install">Installation</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../cli">Commandline</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../config">Configuration</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="" href="../changelog">Changelog</a></li>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+      <li><a class="active" href="../library">Library Specification</a></li>
+      
+        <div class="toc"><ul><li><a href="#Library-Structure">Library Structure</a></li><li><a href="#Configuration">Configuration</a><ul><li><a href="#libraryName">libraryName</a></li><li><a href="#libraryVersion">libraryVersion</a></li><li><a href="#environment">environment</a></li><li><a href="#dsoDebug">dsoDebug</a></li><li><a href="#dsoInclude">dsoInclude</a></li><li><a href="#dsoLibdir">dsoLibdir</a></li><li><a href="#dsoLibs">dsoLibs</a></li><li><a href="#dsoSource">dsoSource</a></li></ul></li></ul></div>
+      
+      
+    <ul>
+      
+    </ul>
+    
+      
+    </ul>
+    
+      </div>
+      
+        <hr/>
+        <div class="author">
+          <p class="subtitle">About the author:</p>
+          
+          <a href="https://github.com/NiklasRosenstein">@NiklasRosenstein on GitHub</a>
+          
+          
+          <a href="mailto:rosensteinniklas@gmail.com">Contact via email</a>
+          
+        </div>
+      
+      <hr/>
+      <div class="statigen-notice">Built with <a href="https://github.com/NiklasRosenstein/statigen">statigen</a>.</div>
     </div>
-
-    <div class="ui grid container main">
-      <div class="twelve wide column">
-        <!-- content -->
-        <div class="ui text container">
-          
-            <h1>Houdini Libraries</h1>
-          
-          <p><strong>Houdini-manage</strong> allows you to install libraries that contain Houdini
+    <div class="content">
+      <div class="content-inner">
+        
+          <h1>Library Specification</h1>
+        
+        
+<p><strong><em>Houdini-manage</em></strong> allows you to install libraries that contain Houdini
 digital assets and shelf tools simply by managing your Houdini environment
 variables in a clever way.</p>
 <p>Libraries can be installed, managed or removed from the command-line using
-the <a href="../cli/#library"><code>library</code></a> command.</p>
-<h2 id="library-structure">Library Structure</h2>
+the <a href="../cli#library"><code class="codespan">library</code></a> command.</p><h2 id="Library-Structure">Library Structure</h2>
 <p>We define a Houdini library as any directory with the appropriate structure
-and a valid <code>houdini-library.json</code> configuration file. The configuration file
+and a valid <code class="codespan">houdini-library.json</code> configuration file. The configuration file
 will be used to determine the installation parameters for the library.
 Different content types must be in separate directories, as shown below.</p>
-<div class="codehilite"><pre><span></span>houdini-library.json
+<pre><code>houdini-library.json
 vop/
 otls/
 scripts/
@@ -132,72 +116,39 @@ radialmenu/
 vex/
 glsl/
 ocl/
+</pre></code><h2 id="Configuration">Configuration</h2>
+<p><strong><em>Example</em></strong></p>
+<div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;libraryName&quot;</span><span class="p">:</span> <span class="s2">&quot;MY_LIBRARY_NAME&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;libraryVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;1.6.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;SOME_ENVIRONMENT_VARIABLE=value&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;dsoDebug&quot;</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
 </pre></div>
-
-
-<h2 id="configuration">Configuration</h2>
-<p><strong>Example</strong></p>
-<div class="codehilite"><pre><span></span>{
-  &quot;libraryName&quot;: &quot;MY_LIBRARY_NAME&quot;,
-  &quot;libraryVersion&quot;: &quot;1.6.0&quot;,
-  &quot;environment&quot;: [
-    &quot;# This line will be inserted into the Houdini environment file.&quot;
-  ]
-}
-</pre></div>
-
-
-<h4 id="libraryname">libraryName</h4>
+<h4 id="libraryName">libraryName</h4>
 <p>Must be a valid environment variable identifier. This library name is used
 to keep track of sections in the Houdini environment file to allow installing,
 updating and uninstalling libraries. Additionally, the following environment
 variables will be affected by this parameter:</p>
 <ul>
-<li><code>HLIB_INSTALLED</code>: A list of the names of libraries that are installed.</li>
-<li><code>HLIBPATH_$libraryName</code>: The path to the library. This is used mostly
-  by shelf tools to reference an icon from the <code>icons/</code> directory, for example:
-  <code>$HLIBPATH_MY_LIBRARY_NAME/icons/myshelftool.png</code></li>
-<li><code>HLIBVERSION_$libraryName</code>: The version of the library.</li>
-</ul>
-<h4 id="libraryversion">libraryVersion</h4>
-<p>The version number of the library.</p>
-<h4 id="environment">environment</h4>
-<p>A list of strings that will be added to the environment file.</p>
-        </div>
-
-        <!-- disqus support -->
-        
-      </div>
-      <!-- Table of contents -->
-      <div class="four wide column">
-        
-          <h1>Table of Contents</h1>
-          <div class="toc">
-<ul>
-<li><a href="#library-structure">Library Structure</a></li>
-<li><a href="#configuration">Configuration</a><ul>
-<li><a href="#libraryname">libraryName</a></li>
-<li><a href="#libraryversion">libraryVersion</a></li>
-<li><a href="#environment">environment</a></li>
-</ul>
+<li><code class="codespan">HLIB_INSTALLED</code>: A list of the names of libraries that are installed.
 </li>
-</ul>
-</div>
-
-        
-      </div>
-    </div>
-
-    <!-- footer -->
-    <div class="ui inverted vertical footer segment">
-      <div class="ui center aligned container">
-          
-            <p>Copyright &copy; 2017 Niklas Rosenstein</p>
-          
-          <p>
-             &mdash; 
-            Generated with <a href="https://github.com/NiklasRosenstein/yassg">Yassg</a>
-          </p>
+<li><code class="codespan">HLIBPATH_$libraryName</code>: The path to the library. This is used mostly
+by shelf tools to reference an icon from the <code class="codespan">icons/</code> directory, for example:
+<code class="codespan">$HLIBPATH_MY_LIBRARY_NAME/icons/myshelftool.png</code>
+</li>
+<li><code class="codespan">HLIBVERSION_$libraryName</code>: The version of the library.
+</li></ul><h4 id="libraryVersion">libraryVersion</h4>
+<p>The version number of the library.</p><h4 id="environment">environment</h4>
+<p>A list of strings that will be added to the environment file.</p><h3 id="dsoDebug">dsoDebug</h3>
+<p>Set to <code class="codespan">true</code> to build DSOs in debug mode when the library is installed.</p><h3 id="dsoInclude">dsoInclude</h3>
+<p>A list of paths that will be added to the compiler include directories.</p><h3 id="dsoLibdir">dsoLibdir</h3>
+<p>A list of paths that will be added to the compiler library directories.</p><h3 id="dsoLibs">dsoLibs</h3>
+<p>A list of library names that will be linked with your DSO.</p><h3 id="dsoSource">dsoSource</h3>
+<p>The directory where the DSO source files are searched for and compiled from
+Defaults to <code class="codespan">dso_source/</code>.</p>
       </div>
     </div>
   </body>
