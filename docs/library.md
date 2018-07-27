@@ -1,3 +1,6 @@
++++
+title = 'Library Specification'
++++
 
 **Houdini-manage** allows you to install libraries that contain Houdini
 digital assets and shelf tools simply by managing your Houdini environment
@@ -33,13 +36,16 @@ Different content types must be in separate directories, as shown below.
 
 __Example__
 
-    {
-      "libraryName": "MY_LIBRARY_NAME",
-      "libraryVersion": "1.6.0",
-      "environment": [
-        "# This line will be inserted into the Houdini environment file."
-      ]
-    }
+```json
+{
+  "libraryName": "MY_LIBRARY_NAME",
+  "libraryVersion": "1.6.0",
+  "environment": [
+    "SOME_ENVIRONMENT_VARIABLE=value"
+  ],
+  "dsoDebug": true
+}
+```
 
 #### libraryName
 
@@ -61,3 +67,24 @@ The version number of the library.
 #### environment
 
 A list of strings that will be added to the environment file.
+
+### dsoDebug
+
+Set to `true` to build DSOs in debug mode when the library is installed.
+
+### dsoInclude
+
+A list of paths that will be added to the compiler include directories.
+
+### dsoLibdir
+
+A list of paths that will be added to the compiler library directories.
+
+### dsoLibs
+
+A list of library names that will be linked with your DSO.
+
+### dsoSource
+
+The directory where the DSO source files are searched for and compiled from
+Defaults to `dso_source/`.

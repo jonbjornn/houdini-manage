@@ -1,15 +1,19 @@
++++
+title = 'Changelog'
+ordering = 4
++++
 
-## v1.0.0
+## v1.0.0 (2018-07-27)
 
 - Show information dialog after DSOs have been rebuilt.
 - Distributions now provide a `houdini-manage-gui` entrypoint that hides the
   console and `houdini-manage` doesn't.
 - Fix "Remove" button
+- Update documentation
 
 ## v0.0.3
 
-- Remove `houdini-manage gui` subcommand, GUI now starts directly when no
-  arguments or options are specified
+- Remove `houdini-manage gui` subcommand, add it as `--gui` option instead
 - Buildable with [nr.pybundle](https://gitlab.niklasrosenstein.com/NiklasRosenstein/python/nr.pybundle)
 - Add automatic building of DSO source files in libraries
 - Add 'Houdini Application Directory' parameter to dialog (required for

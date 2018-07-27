@@ -1,3 +1,7 @@
++++
+title = 'Configuration'
+ordering = 2
++++
 
 The configuration file is read from `~/.houdini-manage.ini`.
 

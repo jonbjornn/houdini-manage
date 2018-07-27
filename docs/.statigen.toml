@@ -1,0 +1,11 @@
+[statigen]
+urlFormat = 'directory'
+
+[site]
+title = 'Houdini-Manage'
+github = 'NiklasRosenstein/houdini-manage'
+
+[author]
+name = "Niklas Rosenstein"
+email = "rosensteinniklas@gmail.com"
+github = "NiklasRosenstein"

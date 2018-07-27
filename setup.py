@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
   name = 'houdini-manage',
-  version = '0.0.3',
+  version = '1.0.0',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   license = 'MIT',
